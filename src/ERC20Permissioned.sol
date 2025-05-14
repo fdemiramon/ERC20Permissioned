@@ -8,13 +8,13 @@ import {ERC20Wrapper} from "@openzeppelin-contracts/token/ERC20/extensions/ERC20
 import {Memberlist} from "src/Memberlist.sol";
 import {Auth} from "lib/liquidity-pools/src/Auth.sol";
 
-/// @title ERC20PermissionedBase
+/// @title ERC20Permissioned
 /// @author Morpho Labs
 /// @custom:contact security@morpho.org
 /// @notice ERC20Permissioned contract to wrap/unwrap permissionless tokens and add a permissioning scheme.
 /// @dev Inherit this contract and override the `hasPermission` and `_update` functions to change the permissioning
 /// scheme.
-contract ERC20PermissionedBase is ERC20Wrapper, ERC20Permit {
+contract ERC20Permissioned is ERC20Wrapper, ERC20Permit {
 
     /// @notice Error thrown when an account does not have permission to perform an action
     /// @param account The address that lacks permission
