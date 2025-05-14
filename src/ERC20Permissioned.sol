@@ -15,23 +15,24 @@ import {Auth} from "lib/liquidity-pools/src/Auth.sol";
 /// @dev Inherit this contract and override the `hasPermission` and `_update` functions to change the permissioning
 /// scheme.
 contract ERC20Permissioned is ERC20Wrapper, ERC20Permit {
-
     /// @notice Error thrown when an account does not have permission to perform an action
     /// @param account The address that lacks permission
     error NoPermission(address account);
 
     /// @notice Schema UID for verified country attestations
-    bytes32 public constant verifiedCountrySchemaUid = 0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065;
-    
+    bytes32 public constant verifiedCountrySchemaUid =
+        0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065;
+
     /// @notice Schema UID for verified account attestations
-    bytes32 public constant verifiedAccountSchemaUid = 0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9;
-    
+    bytes32 public constant verifiedAccountSchemaUid =
+        0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9;
+
     /// @notice The memberlist contract that manages member permissions
     Memberlist public memberlist;
-    
+
     /// @notice The attestation service contract
     IAttestationService public attestationService;
-    
+
     /// @notice The attestation indexer contract
     IAttestationIndexer public attestationIndexer;
 
@@ -42,7 +43,7 @@ contract ERC20Permissioned is ERC20Wrapper, ERC20Permit {
 
     /// @notice The Morpho contract address
     address public immutable MORPHO;
-    
+
     /// @notice The Bundler contract address
     address public immutable BUNDLER;
 
@@ -63,11 +64,8 @@ contract ERC20Permissioned is ERC20Wrapper, ERC20Permit {
         address bundler_,
         address attestationService_,
         address attestationIndexer_,
-        address memberlist_)
-        ERC20Wrapper(underlyingToken)
-        ERC20Permit(name_)
-        ERC20(name_, symbol_)
-    {
+        address memberlist_
+    ) ERC20Wrapper(underlyingToken) ERC20Permit(name_) ERC20(name_, symbol_) {
         MORPHO = morpho;
         BUNDLER = bundler;
 

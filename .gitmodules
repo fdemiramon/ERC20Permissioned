@@ -6,4 +6,7 @@
 	url = https://github.com/centrifuge/liquidity-pools
 [submodule "lib/openzeppelin-contracts"]
 	path = lib/openzeppelin-contracts
-	url = https://github.com/openzeppelin/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "lib/morpho-optimizers"]
+	path = lib/morpho-optimizers
+	url = https://github.com/morpho-org/morpho-optimizers

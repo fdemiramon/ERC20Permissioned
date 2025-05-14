@@ -9,7 +9,7 @@ import {Memberlist} from "../src/Memberlist.sol";
 
 contract MockERC20 is ERC20 {
     constructor() ERC20("Mock Token", "MTK") {
-        _mint(msg.sender, 1000000 * 10**18);
+        _mint(msg.sender, 1000000 * 10 ** 18);
     }
 }
 
@@ -27,11 +27,7 @@ contract MockAttestationService {
     }
 
     function setAttestation(bytes32 uid, bytes memory data) external {
-        attestations[uid] = Attestation({
-            data: data,
-            expirationTime: 0,
-            revocationTime: 0
-        });
+        attestations[uid] = Attestation({data: data, expirationTime: 0, revocationTime: 0});
     }
 }
 
@@ -60,8 +56,10 @@ contract ERC20PermissionedTest is Test {
     address public bob = makeAddr("bob");
     address public charlie = makeAddr("charlie");
 
-    bytes32 public constant VERIFIED_COUNTRY_SCHEMA_UID = 0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065;
-    bytes32 public constant VERIFIED_ACCOUNT_SCHEMA_UID = 0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9;
+    bytes32 public constant VERIFIED_COUNTRY_SCHEMA_UID =
+        0x1801901fabd0e6189356b4fb52bb0ab855276d84f7ec140839fbd1f6801ca065;
+    bytes32 public constant VERIFIED_ACCOUNT_SCHEMA_UID =
+        0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9;
 
     function setUp() public {
         underlyingToken = new MockERC20();
@@ -81,9 +79,9 @@ contract ERC20PermissionedTest is Test {
         );
 
         // Transfer some underlying tokens to test addresses
-        underlyingToken.transfer(alice, 1000 * 10**18);
-        underlyingToken.transfer(bob, 1000 * 10**18);
-        underlyingToken.transfer(charlie, 1000 * 10**18);
+        underlyingToken.transfer(alice, 1000 * 10 ** 18);
+        underlyingToken.transfer(bob, 1000 * 10 ** 18);
+        underlyingToken.transfer(charlie, 1000 * 10 ** 18);
     }
 
     function test_Constructor() public {
@@ -101,14 +99,14 @@ contract ERC20PermissionedTest is Test {
 
         // Alice wraps tokens
         vm.startPrank(alice);
-        underlyingToken.approve(address(permissionedToken), 100 * 10**18);
-        permissionedToken.depositFor(alice, 100 * 10**18);
-        assertEq(permissionedToken.balanceOf(alice), 100 * 10**18);
+        underlyingToken.approve(address(permissionedToken), 100 * 10 ** 18);
+        permissionedToken.depositFor(alice, 100 * 10 ** 18);
+        assertEq(permissionedToken.balanceOf(alice), 100 * 10 ** 18);
 
         // Alice unwraps tokens
-        permissionedToken.withdrawTo(alice, 50 * 10**18);
-        assertEq(permissionedToken.balanceOf(alice), 50 * 10**18);
-        assertEq(underlyingToken.balanceOf(alice), 950 * 10**18);
+        permissionedToken.withdrawTo(alice, 50 * 10 ** 18);
+        assertEq(permissionedToken.balanceOf(alice), 50 * 10 ** 18);
+        assertEq(underlyingToken.balanceOf(alice), 950 * 10 ** 18);
         vm.stopPrank();
     }
 
@@ -120,13 +118,13 @@ contract ERC20PermissionedTest is Test {
 
         // Alice wraps tokens
         vm.startPrank(alice);
-        underlyingToken.approve(address(permissionedToken), 100 * 10**18);
-        permissionedToken.depositFor(alice, 100 * 10**18);
+        underlyingToken.approve(address(permissionedToken), 100 * 10 ** 18);
+        permissionedToken.depositFor(alice, 100 * 10 ** 18);
 
         // Alice transfers to bob
-        permissionedToken.transfer(bob, 50 * 10**18);
-        assertEq(permissionedToken.balanceOf(alice), 50 * 10**18);
-        assertEq(permissionedToken.balanceOf(bob), 50 * 10**18);
+        permissionedToken.transfer(bob, 50 * 10 ** 18);
+        assertEq(permissionedToken.balanceOf(alice), 50 * 10 ** 18);
+        assertEq(permissionedToken.balanceOf(bob), 50 * 10 ** 18);
         vm.stopPrank();
     }
 
@@ -145,12 +143,12 @@ contract ERC20PermissionedTest is Test {
 
         // Alice wraps tokens
         vm.startPrank(alice);
-        underlyingToken.approve(address(permissionedToken), 100 * 10**18);
-        permissionedToken.depositFor(alice, 100 * 10**18);
+        underlyingToken.approve(address(permissionedToken), 100 * 10 ** 18);
+        permissionedToken.depositFor(alice, 100 * 10 ** 18);
 
         // Alice transfers to bob (should fail as bob has no permissions)
         vm.expectRevert(abi.encodeWithSelector(ERC20Permissioned.NoPermission.selector, bob));
-        permissionedToken.transfer(bob, 50 * 10**18);
+        permissionedToken.transfer(bob, 50 * 10 ** 18);
         vm.stopPrank();
     }
 
@@ -161,12 +159,12 @@ contract ERC20PermissionedTest is Test {
 
         // Alice wraps tokens
         vm.startPrank(alice);
-        underlyingToken.approve(address(permissionedToken), 100 * 10**18);
-        permissionedToken.depositFor(alice, 100 * 10**18);
+        underlyingToken.approve(address(permissionedToken), 100 * 10 ** 18);
+        permissionedToken.depositFor(alice, 100 * 10 ** 18);
 
         // Alice transfers to Morpho (should succeed as Morpho is whitelisted)
-        permissionedToken.transfer(MORPHO, 50 * 10**18);
-        assertEq(permissionedToken.balanceOf(MORPHO), 50 * 10**18);
+        permissionedToken.transfer(MORPHO, 50 * 10 ** 18);
+        assertEq(permissionedToken.balanceOf(MORPHO), 50 * 10 ** 18);
         vm.stopPrank();
     }
 
@@ -193,15 +191,15 @@ contract ERC20PermissionedTest is Test {
 
         // Alice wraps tokens
         vm.startPrank(alice);
-        underlyingToken.approve(address(permissionedToken), 100 * 10**18);
-        permissionedToken.depositFor(alice, 100 * 10**18);
+        underlyingToken.approve(address(permissionedToken), 100 * 10 ** 18);
+        permissionedToken.depositFor(alice, 100 * 10 ** 18);
         vm.stopPrank();
 
         // Recover tokens
         vm.startPrank(address(this));
         uint256 recovered = permissionedToken.recover(alice);
-        assertEq(recovered, 100 * 10**18);
-        assertEq(underlyingToken.balanceOf(alice), 1000 * 10**18);
+        assertEq(recovered, 100 * 10 ** 18);
+        assertEq(underlyingToken.balanceOf(alice), 1000 * 10 ** 18);
         vm.stopPrank();
     }
-} 
+}
