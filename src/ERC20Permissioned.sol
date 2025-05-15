@@ -81,14 +81,10 @@ contract ERC20Permissioned is ERC20Wrapper, ERC20Permit {
         string memory name_,
         string memory symbol_,
         IERC20 underlyingToken_,
-        address morpho_,
-        address bundler_,
         address attestationService_,
         address attestationIndexer_,
         address memberlist_
     ) ERC20Wrapper(underlyingToken) ERC20Permit(name_) ERC20(name_, symbol_) {
-        MORPHO = morpho;
-        BUNDLER = bundler;
 
         attestationService = IAttestationService(attestationService_);
         attestationIndexer = IAttestationIndexer(attestationIndexer_);
@@ -101,9 +97,6 @@ contract ERC20Permissioned is ERC20Wrapper, ERC20Permit {
     /// @notice Checks if an account has permission to interact with the contract
     /// @param account The address to check permissions for
     /// @return attested Whether the account has permission
-    function hasPermission(address account) public view virtual returns (bool) {
-        return account == address(0) || account == MORPHO || account == BUNDLER;
-    }
 
     /// @notice Updates contract parameters
     /// @param what The parameter to update
