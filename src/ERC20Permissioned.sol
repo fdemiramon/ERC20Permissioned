@@ -85,7 +85,6 @@ contract ERC20Permissioned is ERC20Wrapper, ERC20Permit {
         address attestationIndexer_,
         address memberlist_
     ) ERC20Wrapper(underlyingToken) ERC20Permit(name_) ERC20(name_, symbol_) {
-
         attestationService = IAttestationService(attestationService_);
         attestationIndexer = IAttestationIndexer(attestationIndexer_);
         memberlist = Memberlist(memberlist_);
