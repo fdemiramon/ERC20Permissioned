@@ -5,8 +5,29 @@ import {IERC20} from "@openzeppelin-contracts/interfaces/IERC20.sol";
 import {ERC20} from "@openzeppelin-contracts/token/ERC20/ERC20.sol";
 import {ERC20Permit} from "@openzeppelin-contracts/token/ERC20/extensions/ERC20Permit.sol";
 import {ERC20Wrapper} from "@openzeppelin-contracts/token/ERC20/extensions/ERC20Wrapper.sol";
-import {Memberlist} from "src/Memberlist.sol";
 import {Auth} from "lib/liquidity-pools/src/Auth.sol";
+import {Memberlist} from "lib/liquidity-pools/src/Memberlist.sol";
+
+interface IAttestationService {
+    function getAttestation(bytes32 uid) external view returns (Attestation memory);
+}
+
+interface IAttestationIndexer {
+    function getAttestationUid(address recipient, bytes32 verifiedCountrySchemaUid) external view returns (bytes32);
+}
+
+struct Attestation {
+    bytes32 uid; // A unique identifier of the attestation.
+    bytes32 schema; // The unique identifier of the schema.
+    uint64 time; // The time when the attestation was created (Unix timestamp).
+    uint64 expirationTime; // The time when the attestation expires (Unix timestamp).
+    uint64 revocationTime; // The time when the attestation was revoked (Unix timestamp).
+    bytes32 refUID; // The UID of the related attestation.
+    address recipient; // The recipient of the attestation.
+    address attester; // The attester/sender of the attestation.
+    bool revocable; // Whether the attestation is revocable.
+    bytes data; // Custom attestation data.
+}
 
 /// @title ERC20Permissioned
 /// @author Morpho Labs
